@@ -1,0 +1,33 @@
+
+** Conflict (shift/reduce) in state 61.
+** Token involved: Id
+** This state is reached from program after reading:
+
+Let Id params let_types Eq Match expr With Id pattern_vars DoubleArrow app_expr
+
+** The derivations that appear below have the following common factor:
+** (The question mark symbol (?) represents the spot where the derivations begin to differ.)
+
+program 
+bindings EOF 
+binding DoubleSemicolon bindings 
+Let Id params let_types Eq expr 
+                           Match expr With match_branches 
+                                           (?)
+
+** In state 61, looking ahead at Id, shifting is permitted
+** because of the following sub-derivation:
+
+match_branch match_branches 
+Id pattern_vars DoubleArrow expr 
+                            app_expr 
+                            app_expr base_expr 
+                                     . Id 
+
+** In state 61, looking ahead at Id, reducing production
+** expr -> app_expr
+** is permitted because of the following sub-derivation:
+
+match_branch match_branches // lookahead token appears because match_branches can begin with Id
+Id pattern_vars DoubleArrow expr // lookahead token is inherited
+                            app_expr . 
