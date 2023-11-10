@@ -71,7 +71,7 @@
 %type <string list> pattern_var
 %type <ast_pattern_vars> pattern_vars
 // %type <ast_expr list> tup_expr
-// %type <ast_expr list> tuple_expr
+%type <ast_expr list> tuple_expr
 %type <string*ast_type_expr list> type_def
 %type <(string*ast_type_expr list) list> type_defs
 %type <ast_type_expr> type_expr
@@ -100,7 +100,7 @@ bindings:
 
 binding:
 | Let; id = Id ; p = params; t = let_types ; Eq ; e = expr {Letbinding (id, p, t, e)}
-| Let; Rec; id = Id ; p = params; t = let_types ; Eq ; e = expr {Letbinding (id, p, t, e)}
+| Let; Rec; id = Id ; p = params; t = let_types ; Eq ; e = expr {Letrecbinding (id, p, t, e)}
 | Type; id=Id; Eq ; s = type_defs {Typebinding (id, s)}
 
 type_defs:
@@ -150,7 +150,7 @@ expr:
 | Fun; p = params; t = let_types; DoubleArrow; e = expr { Funcexpr (p, t, e) }
 // | LParen ; e = expr ; RParen { e }
 | a = app_expr; { a }
-// | t = tuple_expr { t}
+| LParen ; e1 = expr; t = tuple_expr; RParen { Tupleexpr (e1 :: t)}
 | e1=expr ; Minus ; e2=expr { Binop (e1, Sub, e2) }
 | e1=expr ; Plus ; e2=expr { Binop (e1, Add, e2) }
 | e1=expr ; Times ; e2=expr { Binop (e1, Mul, e2) }
@@ -177,7 +177,7 @@ match_branches:
 // | m =  match_branch; Pipe; ms = match_branches { [ m :: ms ]}
 // | m = match_branch;  {[m]}
 | Pipe; m = match_branch {m :: []}
-| m = match_branch; ms = match_branches {m::ms}
+| Pipe; m = match_branch; ms = match_branches {m::ms}
 
 // <match_branch> ::= $id [<pattern_vars>] => <expr>
 
@@ -213,8 +213,9 @@ base_expr:
 | LParen ; e = expr ; RParen { e }
 // | t = tuple_expr {t}
 
-// tuple_expr:
-// | LParen ; t = tup_expr ; RParen {t}
+tuple_expr:
+| Comma ; e = expr  {[e]}
+| Comma ; e = expr ; t = tuple_expr { e :: t}
 
 // tup_expr:
 // | e1 = expr ; Comma ; e2 = expr { e1 :: e2 :: [] }

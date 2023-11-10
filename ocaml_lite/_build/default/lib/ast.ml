@@ -13,7 +13,7 @@ and ast_expr =
 | Ifexpr of (ast_expr * ast_expr * ast_expr)
 | Funcexpr of (ast_param list * ast_type_expr list * ast_expr)
 | Appexpr of (ast_expr * ast_expr)
-| Tupleexpr of ((ast_expr) list)
+| Tupleexpr of (ast_expr list)
 | Binop of (ast_expr * binop * ast_expr)
 | Unop of (unop * ast_expr)
 | True

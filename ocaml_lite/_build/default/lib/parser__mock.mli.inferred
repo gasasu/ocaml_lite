@@ -45,6 +45,7 @@ val xv_types : Ast.ast_type_expr list
 val xv_type_expr : Ast.ast_type_expr
 val xv_type_defs : (string * Ast.ast_type_expr list) list
 val xv_type_def : string * Ast.ast_type_expr list
+val xv_tuple_expr : Ast.ast_expr list
 val xv_start : Ast.ast_start
 val xv_program : Ast.ast_program
 val xv_pattern_vars : Ast.ast_pattern_vars
