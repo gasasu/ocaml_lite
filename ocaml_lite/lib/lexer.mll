@@ -1,4 +1,5 @@
 {
+
 open Parser
 (*
 
@@ -224,4 +225,9 @@ let tokenize (s : string) : token list =
     | EOF -> List.rev acc
     | t -> helper (t :: acc) in
   helper []
+
+let parse_lexbuf (b : Lexing.lexbuf) : Ast.ast_start =  
+  start tok b
+
+let parse s = parse_lexbuf (Lexing.from_string s)
 }
