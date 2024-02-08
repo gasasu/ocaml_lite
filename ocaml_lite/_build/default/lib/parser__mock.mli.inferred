@@ -42,10 +42,11 @@ type token =
   | And
 val menhir_begin_marker : int
 val xv_types : Ast.ast_type_expr list
-val xv_type_expr : Ast.ast_type_expr
 val xv_type_defs : (string * Ast.ast_type_expr list) list
 val xv_type_def : string * Ast.ast_type_expr list
+val xv_type_app : Ast.ast_type_expr
 val xv_tuple_expr : Ast.ast_expr list
+val xv_tup_type : Ast.ast_type_expr
 val xv_start : Ast.ast_start
 val xv_program : Ast.ast_program
 val xv_pattern_vars : Ast.ast_pattern_vars
@@ -57,8 +58,10 @@ val xv_match_branches : Ast.ast_match_branch list
 val xv_match_branch : Ast.ast_match_branch
 val xv_let_types : Ast.ast_type_expr list
 val xv_expr : Ast.ast_expr
+val xv_etype : Ast.ast_type_expr list
 val xv_bindings : Ast.ast_binding list
 val xv_binding : Ast.ast_binding
 val xv_base_expr : Ast.ast_expr
+val xv_base : Ast.ast_type_expr
 val xv_app_expr : Ast.ast_expr
 val menhir_end_marker : int

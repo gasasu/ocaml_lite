@@ -22,7 +22,7 @@ and ast_expr =
 | String of string 
 | Id of string 
 | EmptyParen
-| Match of (ast_expr * ast_match_branch list) 
+| Match of (ast_expr * ast_match_branch list)
 
 and binop = Add 
 | Sub 
@@ -38,8 +38,8 @@ and binop = Add
 and unop = | UNot  | UNegate 
 
 and ast_type_expr = Func of ast_type_expr * ast_type_expr
-| Etype of ast_type_expr * ast_type_expr
-| TypeInt | TypeBool | TypeString | TypeUnit | TypeId of string
+| Etype of ast_type_expr list | VarTy of int | ForallTy of string * ast_type_expr
+| TypeInt | TypeBool | TypeString | TypeUnit | TypeId of string | Freshtype of string
 
 and ast_match_branch = Branch of (string * ast_pattern_vars * ast_expr)
 

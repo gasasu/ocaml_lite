@@ -1,5 +1,6 @@
-(* open OUnit2
+open OUnit2
 open Ocaml_lite.Lexer
+open Ocaml_lite.Parser
 
 let lex_tests = "test suite for tokenize" >::: [
     "random code" >::
@@ -24,4 +25,4 @@ let lex_tests = "test suite for tokenize" >::: [
 
     "number id" >::
     (fun _ -> assert_equal [Int 32; Id "xyz"] (tokenize "32xyz"));
-  ] *)
+  ]

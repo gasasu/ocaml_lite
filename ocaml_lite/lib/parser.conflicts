@@ -1,33 +1,95 @@
 
-** Conflict (shift/reduce) in state 61.
-** Token involved: Id
-** This state is reached from program after reading:
+** Conflict (shift/reduce) in state 127.
+** Token involved: Pipe
+** This state is reached from start after reading:
 
-Let Id params let_types Eq Match expr With Id pattern_vars DoubleArrow app_expr
+Match expr With Pipe Id pattern_vars DoubleArrow Match expr With Pipe match_branch
 
 ** The derivations that appear below have the following common factor:
 ** (The question mark symbol (?) represents the spot where the derivations begin to differ.)
 
-program 
-bindings EOF 
-binding DoubleSemicolon bindings 
-Let Id params let_types Eq expr 
-                           Match expr With match_branches 
-                                           (?)
+start 
+expr EOF 
+Match expr With match_branches 
+                (?)
 
-** In state 61, looking ahead at Id, shifting is permitted
+** In state 127, looking ahead at Pipe, shifting is permitted
 ** because of the following sub-derivation:
 
-match_branch match_branches 
-Id pattern_vars DoubleArrow expr 
-                            app_expr 
-                            app_expr base_expr 
-                                     . Id 
+Pipe match_branch 
+     Id pattern_vars DoubleArrow expr 
+                                 Match expr With match_branches 
+                                                 Pipe match_branch match_branches 
+                                                                   . Pipe match_branch 
 
-** In state 61, looking ahead at Id, reducing production
-** expr -> app_expr
+** In state 127, looking ahead at Pipe, reducing production
+** match_branches -> Pipe match_branch
 ** is permitted because of the following sub-derivation:
 
-match_branch match_branches // lookahead token appears because match_branches can begin with Id
-Id pattern_vars DoubleArrow expr // lookahead token is inherited
-                            app_expr . 
+Pipe match_branch match_branches // lookahead token appears because match_branches can begin with Pipe
+     Id pattern_vars DoubleArrow expr // lookahead token is inherited
+                                 Match expr With match_branches // lookahead token is inherited
+                                                 Pipe match_branch . 
+
+** Conflict (shift/reduce) in state 23.
+** Token involved: RParen
+** This state is reached from start after reading:
+
+Fun params Colon LParen etype
+
+** The derivations that appear below have the following common factor:
+** (The question mark symbol (?) represents the spot where the derivations begin to differ.)
+
+start 
+expr EOF 
+Fun params let_types DoubleArrow expr 
+           Colon types 
+                 type_app 
+                 (?)
+
+** In state 23, looking ahead at RParen, shifting is permitted
+** because of the following sub-derivation:
+
+tup_type 
+etype 
+LParen etype . RParen Times base 
+
+** In state 23, looking ahead at RParen, reducing production
+** tup_type -> etype
+** is permitted because of the following sub-derivation:
+
+base 
+LParen type_app RParen // lookahead token appears
+       tup_type // lookahead token is inherited
+       etype . 
+
+** Conflict (reduce/reduce) in state 19.
+** Tokens involved: RParen Pipe Eq DoubleSemicolon DoubleArrow Arrow
+** The following explanations concentrate on token DoubleArrow.
+** This state is reached from start after reading:
+
+Fun params Colon base
+
+** The derivations that appear below have the following common factor:
+** (The question mark symbol (?) represents the spot where the derivations begin to differ.)
+
+start 
+expr EOF 
+Fun params let_types DoubleArrow expr // lookahead token appears
+           Colon types // lookahead token is inherited
+                 type_app // lookahead token is inherited
+                 (?)
+
+** In state 19, looking ahead at DoubleArrow, reducing production
+** etype -> base
+** is permitted because of the following sub-derivation:
+
+tup_type // lookahead token is inherited
+etype // lookahead token is inherited
+base . 
+
+** In state 19, looking ahead at DoubleArrow, reducing production
+** type_app -> base
+** is permitted because of the following sub-derivation:
+
+base . 
